@@ -21,6 +21,8 @@ namespace APITestingTemplate.Tests.Book
             _addBookFixture = addBookFixture;
         }
 
+        [Trait("Category", "Edit")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_8_As_a_user_I_can_update_a_book()
         {
@@ -28,7 +30,7 @@ namespace APITestingTemplate.Tests.Book
             var bookDetails = _addBookFixture.BookData.BookData;
             var categoryDetails = _addBookFixture.BookData.BookCategoryData;
 
-            //Set Id you want to get
+            //Get Id details
             var getBookId = bookDetails.First().Id;
             var bookCategoryId = categoryDetails.First().Id;
 
@@ -43,7 +45,7 @@ namespace APITestingTemplate.Tests.Book
             editBookRequest.HasEBook = false;
             editBookRequest.BookCategoryId = bookCategoryId;
 
-            // Call the 
+            // Call the edit book API
             var editBookResponse = Put<GetBookDtoCommandResult>(editBookRequest, Resources.UpdateBook, null);
 
             // Check the status code is ok
@@ -55,7 +57,8 @@ namespace APITestingTemplate.Tests.Book
             editBookResponse.Data.Output.PublishedYear.Should().Be(editBookRequest.PublishedYear);
 
         }
-
+        [Trait("Category", "Edit")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_9_As_a_user_I_cannot_update_a_book_when_using_the_form_wrong()
         {
@@ -67,11 +70,12 @@ namespace APITestingTemplate.Tests.Book
             // Call the UPDATE API
             var editBookResponse = Put<GetBookDtoCommandResult>(editBookIncorrectlyRequest, Resources.UpdateBook, null);
 
-            // Check the status code is ok
+            // Check the status code is bad request
             editBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-            // Check that the book details are correct
-            //editBookResponse.Data.Should().Contain(b => b.Title == "ApiTestTitle");
+            // Check that the error message is correct
+            editBookResponse.ErrorMessage.Should().Contain("Required property 'output' expects a non-null value. Path '', line 1, position 120.");
+
 
         }
     }

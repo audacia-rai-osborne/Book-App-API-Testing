@@ -18,6 +18,8 @@ namespace APITestingTemplate.Tests.BookCategory
             _addCategoryFixture = addCategoryFixture;
         }
 
+        [Trait("Category", "Delete")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_18_As_a_user_I_can_delete_a_book_category()
         {
@@ -37,6 +39,8 @@ namespace APITestingTemplate.Tests.BookCategory
 
         }
 
+        [Trait("Category", "Delete")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_19_As_a_user_I_cannot_delete_a_book_category_that_doesnt_exist()
         {

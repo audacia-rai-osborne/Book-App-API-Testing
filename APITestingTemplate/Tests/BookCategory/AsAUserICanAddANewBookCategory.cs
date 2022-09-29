@@ -18,6 +18,8 @@ namespace APITestingTemplate.Tests.BookCategory
 
         private readonly BookCategoryHelper _categoryHelper = new BookCategoryHelper();
 
+        [Trait("Category", "Add")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_14_As_a_user_I_can_add_a_book_category()
         {
@@ -25,9 +27,6 @@ namespace APITestingTemplate.Tests.BookCategory
 
             // Set up book category
             var addCategory = SetupWithoutSave<AddBookCategoryRequest>();
-
-            // Provide body of POST request
-            addCategory.Name = Random.Words(2);
 
             // Call the add a book category API
             var addABookCategoryResponse = Post<GetBookCategoryDtoCommandResult>(addCategory, Resources.AddABookCategory, null);
@@ -47,6 +46,8 @@ namespace APITestingTemplate.Tests.BookCategory
 
         }
 
+        [Trait("Category", "Add")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_15_As_a_user_I_cannot_add_a_book_category_with_incorrect_information()
         {

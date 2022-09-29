@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.WebSockets;
+using APITestingTemplate.DataSetup.Customizations;
 using APITestingTemplate.Fixtures;
 using APITestingTemplate.Helpers;
 using APITestingTemplate.Models.Dtos;
@@ -30,27 +31,30 @@ namespace APITestingTemplate.Tests.Book
             _addCategoryFixture = addCategoryFixture;
 
             _bookHelper = new BookHelper();
-            
+
         }
 
+        [Trait("Category", "Add")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_5_As_a_user_I_can_add_a_book()
         {
 
+            // Get category details
+            var categoryId = _addCategoryFixture.BookCategoryData.Id;
+
             // Set up book
             var addBook = SetupWithoutSave<AddBookRequest>();
-
-            // Get category details
-            var categoryDetails = _addCategoryFixture.BookCategoryData;
+            addBook.BookCategoryId = categoryId;
 
             //Set book you want to add
-            addBook.BookCategoryId = categoryDetails.Id;
-            addBook.Title = Random.Words(2);
-            addBook.Author = Random.Forename() + ' ' + Random.Surname();
-            addBook.Description = Random.Sentence();
-            addBook.PublishedYear =2015;
-            addBook.AvailableFrom = DateTime.Parse("2022-09-16T12:55:22.117Z");
-            addBook.HasEBook = true;
+            // addBook.BookCategoryId = categoryId;
+            //addBook.Title = Random.Words(2);
+            //addBook.Author = Random.Forename() + ' ' + Random.Surname();
+            //addBook.Description = Random.Sentence();
+            //addBook.PublishedYear = 2015;
+            //addBook.AvailableFrom = DateTime.Parse("2022-09-16T12:55:22.117Z");
+            //addBook.HasEBook = true;
 
             // Call POST API to add book
             var addBookResponse = Post<GetBookDtoCommandResult>(addBook, Resources.AddBook, null);
@@ -71,21 +75,28 @@ namespace APITestingTemplate.Tests.Book
 
         }
 
+        [Trait("Category", "Add")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_6_As_a_user_I_cannot_add_a_book_with_an_incorrect_body_request()
         {
 
+
+            // Get category details
+            var categoryId = _addCategoryFixture.BookCategoryData.Id;
+
             // Set up book
-            var addBadBook = SetupWithoutSave<AddBookRequest>();
+            var addBadBook = SetupWithoutSave<AddBookRequest>(new AddBadDateCustomization());
+            addBadBook.BookCategoryId = categoryId;
 
             // Provide body of POST request
-            addBadBook.Title = "Hello";
-            // addBadBook.Description = "description";
-            addBadBook.Author = "Author Name";
-            addBadBook.PublishedYear = -2000;
-            addBadBook.AvailableFrom = DateTimeOffset.Parse("2022 - 09 - 23T13: 17:10.728Z");
-            addBadBook.HasEBook = true;
-            addBadBook.BookCategoryId = 1;
+            //addBadBook.Title = "Hello";
+            //// addBadBook.Description = "description";
+            //addBadBook.Author = "Author Name";
+            //addBadBook.PublishedYear = -2000;
+            //addBadBook.AvailableFrom = DateTimeOffset.Parse("2022 - 09 - 23T13: 17:10.728Z");
+            //addBadBook.HasEBook = true;
+            //addBadBook.BookCategoryId = 1;
 
             // Call POST API to add book
             var addBadBookResponse = Post<GetBookDtoCommandResult>(addBadBook, Resources.AddBook, null);
@@ -111,21 +122,24 @@ namespace APITestingTemplate.Tests.Book
 
         }
 
+        [Trait("Category", "Add")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_7_As_a_user_I_cannot_add_a_book_with_an_incorrect_body_request()
         {
 
             // Set up book
-            var addBadBook = SetupWithoutSave<AddBookRequest>();
+            var addBadBook = SetupWithoutSave<AddBookRequest>(new AddBadTitleCustomization());
+            addBadBook.BookCategoryId = _addCategoryFixture.BookCategoryData.Id;
 
             // Provide body of POST request
-            addBadBook.Title = "";
-            // addBadBook.Description = "description";
-            addBadBook.Author = "Author Name";
-            addBadBook.PublishedYear = 2000;
-            addBadBook.AvailableFrom = DateTimeOffset.Parse("2022 - 09 - 23T13: 17:10.728Z");
-            addBadBook.HasEBook = true;
-            addBadBook.BookCategoryId = 1;
+            //addBadBook.Title = "";
+            //// addBadBook.Description = "description";
+            //addBadBook.Author = "Author Name";
+            //addBadBook.PublishedYear = 2000;
+            //addBadBook.AvailableFrom = DateTimeOffset.Parse("2022 - 09 - 23T13: 17:10.728Z");
+            //addBadBook.HasEBook = true;
+            //addBadBook.BookCategoryId = 1;
 
             // Call POST API to add book
             var addBadBookResponse = Post<AddBookRequest>(addBadBook, Resources.AddBook, null);

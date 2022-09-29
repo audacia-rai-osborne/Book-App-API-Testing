@@ -14,7 +14,7 @@ namespace APITestingTemplate.Helpers
 {
     public class BookHelper : ApiTestsBase, IDisposable
     {
-        private Random Random {get;} = new();
+        private Random Random { get; } = new();
 
         private readonly BookCategoryHelper _bookCategoryHelper;
         public BookHelper()
@@ -46,12 +46,12 @@ namespace APITestingTemplate.Helpers
             // Return the book values as the GetBookDto
             return new AddBookandCategoryData()
             {
-               BookData = new List<GetBookDto>()
+                BookData = new List<GetBookDto>()
                {
                    addBookResponse.Data.Output
                },
 
-               BookCategoryData = new List<GetBookCategoryDto>(){
+                BookCategoryData = new List<GetBookCategoryDto>(){
                    new GetBookCategoryDto()
                    {
                        Name = bookCategoryName,
@@ -95,7 +95,8 @@ namespace APITestingTemplate.Helpers
                     },
 
                 }
-            }; }
+            };
+        }
 
         public AddBookandCategoryData AddFiveBooksandCategories()
         {

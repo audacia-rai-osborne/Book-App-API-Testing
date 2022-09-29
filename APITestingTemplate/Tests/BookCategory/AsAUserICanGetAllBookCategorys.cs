@@ -27,6 +27,8 @@ namespace APITestingTemplate.Tests.BookCategory
 
         }
 
+        [Trait("Category", "Get All")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_12_As_a_user_I_can_get_all_book_categories()
         {

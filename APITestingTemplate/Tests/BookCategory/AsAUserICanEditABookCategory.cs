@@ -22,6 +22,8 @@ namespace APITestingTemplate.Tests.BookCategory
         }
 
 
+        [Trait("Category", "Edit")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_16_As_a_user_I_can_edit_a_category()
         {
@@ -46,6 +48,8 @@ namespace APITestingTemplate.Tests.BookCategory
 
         }
 
+        [Trait("Category", "Edit")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_17_As_a_user_I_cannot_incorrectly_edit_a_category()
         {

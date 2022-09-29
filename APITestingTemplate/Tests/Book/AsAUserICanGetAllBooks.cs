@@ -42,6 +42,8 @@ namespace APITestingTemplate.Tests.Book
             _bookHelper = new BookHelper();
         }
 
+        [Trait("Category", "Get All")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_2_As_a_user_I_can_get_all_books()
         {

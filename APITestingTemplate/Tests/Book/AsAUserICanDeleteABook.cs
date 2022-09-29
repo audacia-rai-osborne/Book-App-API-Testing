@@ -20,6 +20,8 @@ namespace APITestingTemplate.Tests.Book
             _addBookFixture = addBookFixture;
         }
 
+        [Trait("Category", "Delete")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_10_As_A_User_I_Can_Delete_A_Book()
         {
@@ -37,6 +39,8 @@ namespace APITestingTemplate.Tests.Book
 
         }
 
+        [Trait("Category", "Delete")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_11_As_A_User_I_Cannot_Delete_A_Book_without_An_Id()
         {
@@ -50,7 +54,6 @@ namespace APITestingTemplate.Tests.Book
             deleteBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         }
-
 
     }
 }

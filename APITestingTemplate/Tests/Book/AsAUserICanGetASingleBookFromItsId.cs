@@ -8,6 +8,7 @@ using APITestingTemplate.Models.Dtos;
 using Audacia.Testing.Api;
 using FluentAssertions;
 using FluentAssertions.Primitives;
+using RestSharp;
 using Xunit;
 
 namespace APITestingTemplate.Tests.Book
@@ -22,7 +23,8 @@ namespace APITestingTemplate.Tests.Book
             _addBookFixture = addBookFixture;
         }
 
-
+        [Trait("Category", "Get")]
+        [Trait("Category", "Happy Path")]
         [Fact]
         public void Scenario_3_As_a_user_I_can_get_a_book_by_its_Id()
         {
@@ -48,6 +50,8 @@ namespace APITestingTemplate.Tests.Book
 
         }
 
+        [Trait("Category", "Get")]
+        [Trait("Category", "Unhappy Path")]
         [Fact]
         public void Scenario_4_As_a_user_I_cannot_get_a_book_by_an_Id_that_doesnt_exist()
         {
@@ -56,10 +60,13 @@ namespace APITestingTemplate.Tests.Book
             var getBookId = 1000;
 
             // Call the get API to get the book by its ID
-            var getBookResponse = Get<GetBookDtoCommandResult>(getBookId, Resources.GetBookById);
+            var getBookResponse = Get<GetBookDto>(getBookId, Resources.GetBookById);
 
             // Check the status code is ok
             getBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            // Check error message is correct
+            getBookResponse.ResponseStatus.Should().Be(ResponseStatus.Error);
 
         }
     }
